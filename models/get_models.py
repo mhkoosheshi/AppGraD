@@ -1,4 +1,4 @@
-from models.defined_models import *
+from models.vgg_models import vgg16_double, vgg16_single
 
 def get_model(arch='simple',
               shape=(512,512),
