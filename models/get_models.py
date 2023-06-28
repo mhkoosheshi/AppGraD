@@ -1,4 +1,4 @@
-from AppGraD.models.defined_models import *
+from models.defined_models import *
 
 def get_model(arch='simple',
               shape=(512,512),
