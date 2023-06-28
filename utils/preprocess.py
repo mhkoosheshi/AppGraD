@@ -3,7 +3,7 @@ import cv2
 import glob
 
 
-def path_lists(camera_mode="up", branches='one'):
+def path_lists(branches='one'):
   # fix pers and iso labeling
   list_grasp = []
   list_RGB1 = []
@@ -13,14 +13,14 @@ def path_lists(camera_mode="up", branches='one'):
   list_RGB3 = []
   list_D3 = []
 
-  if branches== 'one' or branches=='two_rgbd':
-    for im_path in glob.glob(f"/content/drive/MyDrive/gad4dof/{camera_mode}/rgb*.png"):
+  if branches=='one' or branches=='two_rgbd':
+    for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs1/rgb*.png"):
       list_RGB1.append(im_path)
 
-    for c, grasp_path in enumerate(glob.glob("/content/drive/MyDrive/gad4dof/grasp/grasp*.txt")):
+    for c, grasp_path in enumerate(glob.glob("/content/drive/MyDrive/AppGraD/grasp/grasp*.txt")):
       list_grasp.append(grasp_path)
 
-    for d_path in glob.glob(f"/content/drive/MyDrive/gad4dof/{camera_mode}/d*.png"):
+    for d_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs1/d*.png"):
       list_D1.append(d_path)
 
     list_RGB1 = sorted(list_RGB1)
@@ -44,6 +44,26 @@ def path_lists(camera_mode="up", branches='one'):
     list_RGB2 = sorted(list_RGB2)
 
     return list_RGB1, list_RGB2, list_grasp
+
+  elif branches== 'three_rgb':
+    for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs10/rgb*.png"):
+      list_RGB1.append(im_path)
+
+    for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs11/rgb*.png"):
+      list_RGB2.append(im_path)
+
+    for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs12/rgb*.png"):
+      list_RGB3.append(im_path)
+
+    for c, grasp_path in enumerate(glob.glob("/content/drive/MyDrive/AppGraD/grasp/grasp*.txt")):
+      list_grasp.append(grasp_path)
+
+    list_RGB1 = sorted(list_RGB1)
+    list_RGB2 = sorted(list_RGB2)
+    list_RGB3 = sorted(list_RGB3)
+    list_grasp = sorted(list_grasp)
+    
+    return list_RGB1, list_RGB2, list_RGB3, list_grasp
 
 
 def unison_shuffle(a,b,c):

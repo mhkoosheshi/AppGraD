@@ -205,7 +205,7 @@ class DataGenerator2(Sequence):
     return [rgb1,rgb2], [grsp]
 
 
-def get_loader(batch_size=batch_size,
+def get_loader(batch_size=8,
               camera_mode=camera_mode,
               input_mode=input_mode,
               shape=shape,
