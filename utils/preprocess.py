@@ -62,8 +62,26 @@ def path_lists(branches='one'):
     list_RGB2 = sorted(list_RGB2)
     list_RGB3 = sorted(list_RGB3)
     list_grasp = sorted(list_grasp)
+
+  elif branches== 'three_d':
+    for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs10/d*.png"):
+      list_D1.append(im_path)
+
+    for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs11/d*.png"):
+      list_D2.append(im_path)
+
+    for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs12/d*.png"):
+      list_D3.append(im_path)
+
+    for c, grasp_path in enumerate(glob.glob("/content/drive/MyDrive/AppGraD/grasp/grasp*.txt")):
+      list_grasp.append(grasp_path)
+
+    list_D1 = sorted(list_D1)
+    list_D2 = sorted(list_D2)
+    list_D3 = sorted(list_D3)
+    list_grasp = sorted(list_grasp)
     
-    return list_RGB1, list_RGB2, list_RGB3, list_grasp
+    return list_D1, list_D2, list_D3, list_grasp
 
 
 def unison_shuffle(a,b,c):
