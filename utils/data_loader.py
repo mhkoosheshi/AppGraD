@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import albumentations as A
 import random
 from tensorflow.keras.utils import Sequence
-from utils.preprocess import path_lists, unison_shuffle
+from utils.preprocess import path_lists, unison_shuffle, ImageToFloatArray
 
 class DataGenerator(Sequence):
   '''
