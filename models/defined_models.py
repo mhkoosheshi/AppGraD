@@ -57,3 +57,39 @@ def vgg16_double(trainable=True,
     model = keras.Model([model1.input, model2.input], outputs, name='vgg16_double')
 
     return model
+
+
+def vgg16_single(trainable=True,
+                shape=(224,224),
+                N=5,
+                ):
+    
+    inputs = layers.Input((shape[0], shape[1], 3))
+
+    backbone = keras.applications.VGG16(weights="imagenet",
+                                        include_top=False,
+                                        input_shape=(shape[0], shape[1], 3)
+    )
+    backbone.trainable = trainable
+    backbone = backbone(inputs)
+    outputs = backbone
+    # outputs = layers.Dropout(0.3)(outputs)
+    outputs = layers.SeparableConv2D(
+        N*4, kernel_size=3, strides=1, activation="relu"
+    )(outputs)
+    # outputs = layers.SeparableConv2D(
+    #     N, kernel_size=3, strides=1, activation="relu"
+    # )(outputs)
+    outputs = layers.Flatten()(outputs)
+    outputs = layers.Dense(128)(outputs)
+    outputs = layers.Dense(32)(outputs)
+    outputs = layers.Dense(16)(outputs)
+    outputs = layers.Dense(N)(outputs)
+
+
+    # outputs = layers.SeparableConv2D(
+    #     N, kernel_size=3, strides=1
+    # )(outputs)
+    model = keras.Model(inputs, outputs, name='vgg16_single')
+
+    return model
