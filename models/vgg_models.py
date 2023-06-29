@@ -5,6 +5,7 @@ from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPool2D, BatchNorm
 from tensorflow.keras.applications.resnet50 import ResNet50
 from tensorflow.keras.applications.vgg16 import VGG16
 from tensorflow.keras.constraints import MaxNorm
+from keras.layers import Lambda
 
 
 def vgg16_double(trainable=True,
@@ -93,3 +94,48 @@ def vgg16_single(trainable=True,
     model = keras.Model(inputs, outputs, name='vgg16_single')
 
     return model
+
+def vgg16_s2d(n_freeze=10,
+              n_pick=18,
+              shape=(224,224)):
+
+  '''
+  A modified version of vgg16 block, including vgg16's kernels and s2d as its downsampling method
+
+  n_freeze (int): the number of starting layers to freeze. max=18
+  n_pick (int): the number of layers of vgg16 to pick
+  '''
+
+  vgg = VGG16(include_top=False, 
+              weights='imagenet', 
+              input_shape=(224,224,3)
+              )
+  vgg.trainable = True
+
+  for layer in vgg.layers[1:n_freeze+1]:
+    layer.trainable = False
+
+  s2d = Lambda(lambda x:tf.nn.space_to_depth(x,2))
+  x = tf.keras.Input(shape=(224,224,3))
+  x1 = vgg.layers[1](x)
+  x1 = vgg.layers[2](x1)
+  x1 = s2d(x1)
+  x1 = vgg.layers[4](x1)
+  x1 = vgg.layers[5](x1)
+  x1 = s2d(x1)
+  x1 = vgg.layers[7](x1)
+  x1 = vgg.layers[8](x1)
+  x1 = vgg.layers[9](x1)
+  x1 = s2d(x1)
+  x1 = vgg.layers[11](x1)
+  x1 = vgg.layers[12](x1)
+  x1 = vgg.layers[13](x1)
+  x1 = s2d(x1)
+  x1 = vgg.layers[15](x1)
+  x1 = vgg.layers[16](x1)
+  x1 = vgg.layers[17](x1)
+  x1 = s2d(x1)
+
+  vgg_s2d = tf.keras.Model(inputs=x, outputs=x1)
+
+  return vgg_s2d
