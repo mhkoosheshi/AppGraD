@@ -296,7 +296,7 @@ def get_loader(batch_size=8,
     RGB_paths, D_paths, grasp_paths = path_lists(branches=branches)
     n = len(RGB_paths)
     RGB_paths, D_paths, grasp_paths = np.array(RGB_paths), np.array(D_paths), np.array(grasp_paths)
-    RGB_paths, D_paths, grasp_paths = unison_shuffle(RGB_paths,D_paths,grasp_paths)
+    RGB_paths, D_paths, grasp_paths = unison_shuffle(a=RGB_paths,b=D_paths,c=grasp_paths)
     RGB_paths, D_paths, grasp_paths = list(RGB_paths), list(D_paths), list(grasp_paths)
     RGB_train, RGB_val = RGB_paths[int(n*factor):], RGB_paths[:int(n*factor)]
     D_train, D_val = D_paths[int(n*factor):], D_paths[:int(n*factor)]
@@ -337,7 +337,7 @@ def get_loader(batch_size=8,
     RGB1_paths, RGB2_paths, grasp_paths = path_lists(branches=branches)
     n = len(RGB1_paths)
     RGB1_paths, RGB2_paths, grasp_paths = np.array(RGB1_paths), np.array(RGB2_paths), np.array(RGB3_paths), np.array(grasp_paths)
-    RGB1_paths, RGB2_paths, grasp_paths = unison_shuffle(RGB1_paths, RGB2_paths, grasp_paths)
+    RGB1_paths, RGB2_paths, grasp_paths = unison_shuffle(a=RGB1_paths, b=RGB2_paths, c=grasp_paths)
     RGB1_paths, RGB2_paths, grasp_paths = list(RGB1_paths), list(RGB2_paths), list(grasp_paths)
     RGB1_train, RGB1_val = RGB1_paths[int(n*factor):], RGB1_paths[:int(n*factor)]
     RGB2_train, RGB2_val = RGB2_paths[int(n*factor):], RGB2_paths[:int(n*factor)]
@@ -361,7 +361,7 @@ def get_loader(batch_size=8,
     RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = path_lists(branches=branches)
     n = len(RGB1_paths)
     RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = np.array(RGB1_paths), np.array(RGB2_paths), np.array(RGB3_paths), np.array(grasp_paths)
-    RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = unison_shuffle(RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths)
+    RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = unison_shuffle(a=RGB1_paths, b=RGB2_paths, c=RGB3_paths, d=grasp_paths)
     RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = list(RGB1_paths), list(RGB2_paths), list(RGB3_paths), list(grasp_paths)
     RGB1_train, RGB1_val = RGB1_paths[int(n*factor):], RGB1_paths[:int(n*factor)]
     RGB2_train, RGB2_val = RGB2_paths[int(n*factor):], RGB2_paths[:int(n*factor)]
