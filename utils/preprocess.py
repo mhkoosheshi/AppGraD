@@ -63,6 +63,8 @@ def path_lists(branches='one'):
     list_RGB3 = sorted(list_RGB3)
     list_grasp = sorted(list_grasp)
 
+    return list_RGB1, list_RGB2, list_RGB3, list_grasp
+
   elif branches== 'three_d':
     for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/vs10/d*.png"):
       list_D1.append(im_path)
