@@ -260,7 +260,7 @@ class DataGenerator3(Sequence):
       img = np.asarray(pimg)
       img = np.float32(img)
       img = img/255
-      rgb2.append(img)
+      rgb3.append(img)
 
       # grasp data
       with open(grasp_path,"r") as f:
