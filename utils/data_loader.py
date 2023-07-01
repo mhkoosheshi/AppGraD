@@ -235,7 +235,7 @@ class DataGenerator3(Sequence):
     rgb3 = []
     grsp = []
 
-    for i, (RGB1_path, RGB2_path, RGB3_path, grasp_path) in enumerate(zip(batch_RGB1, batch_RGB2, RGB3_path, batch_grasp)):
+    for i, (RGB1_path, RGB2_path, RGB3_path, grasp_path) in enumerate(zip(batch_RGB1, batch_RGB2, batch_RGB3, batch_grasp)):
 
       # RGB1 data
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
