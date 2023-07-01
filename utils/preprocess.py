@@ -84,9 +84,13 @@ def path_lists(branches='one'):
     return list_D1, list_D2, list_D3, list_grasp
 
 
-def unison_shuffle(a,b,c):
-  inx=np.random.permutation(a.shape[0])
-  return a[inx],b[inx],c[inx]
+def unison_shuffle(a, b, c, d=None):
+  if d is None:
+    inx=np.random.permutation(a.shape[0])
+    return a[inx],b[inx],c[inx]
+  elif d is not None:
+    inx=np.random.permutation(a.shape[0])
+    return a[inx], b[inx], c[inx], d[inx]
 
 def get_inputs(trainX, depthX, input_mode = "RBD"):
 

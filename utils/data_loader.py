@@ -336,7 +336,7 @@ def get_loader(batch_size=8,
   elif branches=='two_rgb':
     RGB1_paths, RGB2_paths, grasp_paths = path_lists(branches=branches)
     n = len(RGB1_paths)
-    RGB1_paths, RGB2_paths, grasp_paths = np.array(RGB1_paths), np.array(RGB2_paths), np.array(grasp_paths)
+    RGB1_paths, RGB2_paths, grasp_paths = np.array(RGB1_paths), np.array(RGB2_paths), np.array(RGB3_paths), np.array(grasp_paths)
     RGB1_paths, RGB2_paths, grasp_paths = unison_shuffle(RGB1_paths, RGB2_paths, grasp_paths)
     RGB1_paths, RGB2_paths, grasp_paths = list(RGB1_paths), list(RGB2_paths), list(grasp_paths)
     RGB1_train, RGB1_val = RGB1_paths[int(n*factor):], RGB1_paths[:int(n*factor)]
@@ -358,17 +358,32 @@ def get_loader(batch_size=8,
                             shuffle=shuffle
                             )
   elif branches=='three_rgb':
-    RGB_paths, D_paths, grasp_paths = path_lists(branches=branches)
-    n = len(RGB_paths)
-    RGB_paths, D_paths, grasp_paths = np.array(RGB_paths), np.array(D_paths), np.array(grasp_paths)
-    RGB_paths, D_paths, grasp_paths = unison_shuffle(RGB_paths,D_paths,grasp_paths)
-    RGB_paths, D_paths, grasp_paths = list(RGB_paths), list(D_paths), list(grasp_paths)
-    RGB_train, RGB_val = RGB_paths[int(n*factor):], RGB_paths[:int(n*factor)]
-    D_train, D_val = D_paths[int(n*factor):], D_paths[:int(n*factor)]
+    RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = path_lists(branches=branches)
+    n = len(RGB1_paths)
+    RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = np.array(RGB1_paths), np.array(RGB2_paths), np.array(RGB3_paths), np.array(grasp_paths)
+    RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = unison_shuffle(RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths)
+    RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = list(RGB1_paths), list(RGB2_paths), list(RGB3_paths), list(grasp_paths)
+    RGB1_train, RGB1_val = RGB1_paths[int(n*factor):], RGB1_paths[:int(n*factor)]
+    RGB2_train, RGB2_val = RGB2_paths[int(n*factor):], RGB2_paths[:int(n*factor)]
+    RGB3_train, RGB3_val = RGB3_paths[int(n*factor):], RGB3_paths[:int(n*factor)]
     grasp_train, grasp_val = grasp_paths[int(n*factor):], grasp_paths[:int(n*factor)]
 
-    train_gen = DataGenerator(RGB_train, D_train, grasp_train, multi_inputs=True)
-    val_gen = DataGenerator(RGB_val, D_val, grasp_val, multi_inputs=True)
+    train_gen = DataGenerator3(RGB1_train,
+                               RGB2_train, 
+                               RGB3_train,
+                               grasp_train,
+                               batch_size=batch_size,
+                               shape=shape,
+                               shuffle=shuffle
+                               )
+    val_gen = DataGenerator3(RGB1_val,
+                            RGB2_val, 
+                            RGB3_val,
+                            grasp_val,
+                            batch_size=batch_size,
+                            shape=shape,
+                            shuffle=shuffle
+                            )
 
   # elif branches=='three_d':
   #   RGB_paths, D_paths, grasp_paths = path_lists(branches=branches)
