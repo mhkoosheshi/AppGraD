@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import albumentations as A
 import random
 from tensorflow.keras.utils import Sequence
-from utils.preprocess import path_lists, unison_shuffle, ImageToFloatArray
+from utils.preprocess import path_lists, test_path_lists, unison_shuffle, ImageToFloatArray
 
 class DataGenerator(Sequence):
   '''
@@ -368,6 +368,8 @@ def get_loader(batch_size=8,
     RGB3_train, RGB3_val = RGB3_paths[int(n*factor):], RGB3_paths[:int(n*factor)]
     grasp_train, grasp_val = grasp_paths[int(n*factor):], grasp_paths[:int(n*factor)]
 
+    RGB1_test, RGB2_test, RGB3_test, grasp_test = test_path_lists(branches=branches)
+
     train_gen = DataGenerator3(RGB1_train,
                                RGB2_train, 
                                RGB3_train,
@@ -385,6 +387,14 @@ def get_loader(batch_size=8,
                             shuffle=shuffle
                             )
 
+    test_gen = DataGenerator3(RGB1_test,
+                              RGB2_test, 
+                              RGB3_test,
+                              grasp_test,
+                              batch_size=batch_size,
+                              shape=shape,
+                              shuffle=False
+                              )
   # elif branches=='three_d':
   #   RGB_paths, D_paths, grasp_paths = path_lists(branches=branches)
   #   n = len(RGB_paths)
@@ -398,4 +408,4 @@ def get_loader(batch_size=8,
   #   train_gen = DataGenerator(RGB_train, D_train, grasp_train, multi_inputs=True)
   #   val_gen = DataGenerator(RGB_val, D_val, grasp_val, multi_inputs=True)
 
-  return train_gen, val_gen
+  return train_gen, val_gen, test_gen
