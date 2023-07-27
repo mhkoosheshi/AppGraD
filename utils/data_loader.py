@@ -8,6 +8,7 @@ import albumentations as A
 import random
 from tensorflow.keras.utils import Sequence
 from utils.preprocess import path_lists, test_path_lists, unison_shuffle, ImageToFloatArray
+import Albumentations as A
 
 class DataGenerator(Sequence):
   '''
@@ -199,7 +200,8 @@ class DataGenerator3(Sequence):
               grasp_paths,
               batch_size=8,
               shape=(224,224),
-              shuffle=True
+              shuffle=True,
+              aug_p=0.7
               ):
 
     self.RGB1_paths = RGB1_paths
@@ -209,7 +211,24 @@ class DataGenerator3(Sequence):
     self.batch_size = batch_size
     self.shape = shape
     self.shuffle = shuffle
+    self.aug_p = aug_p
     self.on_epoch_end()
+
+    self.color_tranform = self.color_transform = A.Compose([
+      A.GaussNoise(p=0.5),
+      A.RandomBrightnessContrast(p=0.5, brightness_limit=0.2, contrast_limit=0.2),
+      A.RandomBrightness(limit=0.2,p=0.5),
+      A.RandomContrast(limit=0.2,p=0.5),
+      A.Sharpen(p=0.5),
+      A.RandomGamma(p=0.5),
+      A.RandomToneCurve(p=0),
+      A.RingingOvershoot(p=0),
+      A.RGBShift(p=0),
+      A.CLAHE(p=0),
+      A.PixelDropout(p=0),
+      A.HueSaturationValue(p=0),
+      A.ChannelShuffle(p=0)],
+      p=aug_p)
 
   def on_epoch_end(self):
     if self.shuffle:
@@ -236,14 +255,18 @@ class DataGenerator3(Sequence):
     grsp = []
 
     for i, (RGB1_path, RGB2_path, RGB3_path, grasp_path) in enumerate(zip(batch_RGB1, batch_RGB2, batch_RGB3, batch_grasp)):
-
+      
+      a = int(10*random.random())
+      
       # RGB1 data
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       img = np.float32(img)
-      img = img/255
-      rgb1.append(img)
+      img = img
+      random.seed(a)
+      transformed = self.color_tranform(image=img)
+      rgb1.append(transformed['image'])
 
 
       # RGB2 data
@@ -251,16 +274,20 @@ class DataGenerator3(Sequence):
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       img = np.float32(img)
-      img = img/255
-      rgb2.append(img)
+      img = img
+      random.seed(a)
+      transformed = self.color_tranform(image=img)
+      rgb2.append(transformed['image'])
 
       # RGB3 data
       img = cv2.cvtColor(cv2.imread(RGB3_path), cv2.COLOR_BGR2RGB)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       img = np.float32(img)
-      img = img/255
-      rgb3.append(img)
+      img = img
+      random.seed(a)
+      transformed = self.color_tranform(image=img)
+      rgb3.append(transformed['image'])
 
       # grasp data
       with open(grasp_path,"r") as f:
@@ -277,9 +304,9 @@ class DataGenerator3(Sequence):
       #   grasp[3] = 360 + grasp[3]
       # sin cos
 
-    rgb1 = (np.array(rgb1))
-    rgb2 = (np.array(rgb2))
-    rgb3 = (np.array(rgb3))
+    rgb1 = (np.array(rgb1))/255
+    rgb2 = (np.array(rgb2))/255
+    rgb3 = (np.array(rgb3))/255
     grsp = np.array(grsp)
 
     return [rgb1, rgb2, rgb3], [grsp]
@@ -289,7 +316,9 @@ def get_loader(batch_size=8,
               branches='one',
               shape=(224,224),
               shuffle=True,
-              factor=0.15):
+              factor=0.15,
+              aug=False,
+              aug_p=0):
   
 
   if branches=='one' or branches=='two_rgbd':
@@ -367,7 +396,10 @@ def get_loader(batch_size=8,
     RGB2_train, RGB2_val = RGB2_paths[int(n*factor):], RGB2_paths[:int(n*factor)]
     RGB3_train, RGB3_val = RGB3_paths[int(n*factor):], RGB3_paths[:int(n*factor)]
     grasp_train, grasp_val = grasp_paths[int(n*factor):], grasp_paths[:int(n*factor)]
-
+    
+    if aug:
+      RGB1_train, RGB2_train, RGB3_train, grasp_train = 2*RGB1_train, 2*RGB2_train, 2*RGB3_train, 2*grasp_train
+    
     RGB1_test, RGB2_test, RGB3_test, grasp_test = test_path_lists(branches=branches)
 
     train_gen = DataGenerator3(RGB1_train,
@@ -376,7 +408,8 @@ def get_loader(batch_size=8,
                                grasp_train,
                                batch_size=batch_size,
                                shape=shape,
-                               shuffle=shuffle
+                               shuffle=shuffle,
+                               aug_p=aug_p
                                )
     val_gen = DataGenerator3(RGB1_val,
                             RGB2_val, 
@@ -384,7 +417,8 @@ def get_loader(batch_size=8,
                             grasp_val,
                             batch_size=batch_size,
                             shape=shape,
-                            shuffle=shuffle
+                            shuffle=shuffle,
+                            aug_p=0
                             )
 
     test_gen = DataGenerator3(RGB1_test,
@@ -393,7 +427,8 @@ def get_loader(batch_size=8,
                               grasp_test,
                               batch_size=batch_size,
                               shape=shape,
-                              shuffle=False
+                              shuffle=False,
+                              aug_p=0
                               )
   # elif branches=='three_d':
   #   RGB_paths, D_paths, grasp_paths = path_lists(branches=branches)
