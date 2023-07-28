@@ -8,7 +8,7 @@ import albumentations as A
 import random
 from tensorflow.keras.utils import Sequence
 from utils.preprocess import path_lists, test_path_lists, unison_shuffle, ImageToFloatArray
-import Albumentations as A
+import albumentations as A
 
 class DataGenerator(Sequence):
   '''
