@@ -293,8 +293,10 @@ class DataGenerator3(Sequence):
       with open(grasp_path,"r") as f:
         s = f.read()
       grasp = [float(s.split(",")[i]) for i in range(0,len(s.split(",")))]
-      grasp[0] = (grasp[0]-155)/(355-155)
-      grasp[1] = (grasp[1]-185)/(410-185)
+      # grasp[0] = (grasp[0]-155)/(355-155)
+      # grasp[1] = (grasp[1]-185)/(410-185)
+      grasp[0] = (((0.5*grasp[0])/512 - 0.125)/0.25)
+      grasp[1] = (((0.5*grasp[1])/512 -0.0442 - 0.125)/0.25)
       grasp[2] = (grasp[2]-0.01)/(0.08-0.01)
       grasp[4] = (grasp[4]-25)/(105-25)
       if grasp[3]<0:
