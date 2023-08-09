@@ -277,7 +277,7 @@ class DataGenerator3(Sequence):
 
     for i, (RGB1_path, RGB2_path, RGB3_path, grasp_path) in enumerate(zip(batch_RGB1, batch_RGB2, batch_RGB3, batch_grasp)):
       
-      a = int(10*random.random())
+      
       
       # RGB1 data
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
@@ -292,7 +292,8 @@ class DataGenerator3(Sequence):
         img = (rnd)*(255 - img) + (1-rnd)*img
       else:
         continue
-
+      
+      a = int(100*(random.random()))
       random.seed(a)
       transformed = self.color_transform(image=img)['image']
       img = transformed
