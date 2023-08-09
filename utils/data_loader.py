@@ -283,7 +283,7 @@ class DataGenerator3(Sequence):
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
-      img = np.float32(img)
+      # img = np.float32(img)
       img = img
 
       if self.aug_p !=0:
@@ -304,6 +304,7 @@ class DataGenerator3(Sequence):
       else:
         continue
 
+      img = np.float32(img)
       rgb1.append(img)
 
 
@@ -311,7 +312,7 @@ class DataGenerator3(Sequence):
       img = cv2.cvtColor(cv2.imread(RGB2_path), cv2.COLOR_BGR2RGB)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
-      img = np.float32(img)
+      # img = np.float32(img)
       img = img
       
       if self.aug_p !=0:
@@ -332,13 +333,14 @@ class DataGenerator3(Sequence):
       else:
         continue
 
+      img = np.float32(img)
       rgb2.append(img)
 
       # RGB3 data
       img = cv2.cvtColor(cv2.imread(RGB3_path), cv2.COLOR_BGR2RGB)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
-      img = np.float32(img)
+      # img = np.float32(img)
       img = img
       
       if self.aug_p !=0:
@@ -359,6 +361,7 @@ class DataGenerator3(Sequence):
       else:
         continue
 
+      img = np.float32(img)
       rgb3.append(img)
 
       # grasp data
