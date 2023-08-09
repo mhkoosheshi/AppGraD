@@ -214,21 +214,42 @@ class DataGenerator3(Sequence):
     self.aug_p = aug_p
     self.on_epoch_end()
 
-    self.color_tranform = self.color_transform = A.Compose([
-      A.GaussNoise(p=0.5),
-      A.RandomBrightnessContrast(p=0.5, brightness_limit=0.2, contrast_limit=0.2),
-      A.RandomBrightness(limit=0.2,p=0.5),
-      A.RandomContrast(limit=0.2,p=0.5),
-      A.Sharpen(p=0.5),
-      A.RandomGamma(p=0.5),
-      A.RandomToneCurve(p=0),
-      A.RingingOvershoot(p=0),
-      A.RGBShift(p=0),
-      A.CLAHE(p=0),
-      A.PixelDropout(p=0),
-      A.HueSaturationValue(p=0),
-      A.ChannelShuffle(p=0)],
-      p=aug_p)
+    # self.color_tranform = self.color_transform = A.Compose([
+    #   A.GaussNoise(p=0.5),
+    #   A.RandomBrightnessContrast(p=0.5, brightness_limit=0.2, contrast_limit=0.2),
+    #   A.RandomBrightness(limit=0.2,p=0.5),
+    #   A.RandomContrast(limit=0.2,p=0.5),
+    #   A.Sharpen(p=0.5),
+    #   A.RandomGamma(p=0.5),
+    #   A.RandomToneCurve(p=0),
+    #   A.RingingOvershoot(p=0),
+    #   A.RGBShift(p=0),
+    #   A.CLAHE(p=0),
+    #   A.PixelDropout(p=0),
+    #   A.HueSaturationValue(p=0),
+    #   A.ChannelShuffle(p=0)],
+    #   p=aug_p)
+
+    self.color_transform = A.Compose([
+    # A.ChannelShuffle(p=0.5),
+    A.CLAHE(p=0),
+    # A.ColorJitter(p=1),
+    A.Emboss(p=0),
+    # A.Equalize(mode='cv', by_channels=True, p=1),
+    A.FancyPCA(p=0.7),
+    # A.GaussNoise(p=1),
+    A.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=30, val_shift_limit=50, p=0.7),
+    # A.RGBShift(p=1),
+    # A.ToGray(p=1),
+    A.RandomBrightnessContrast(p=0.7),
+    A.RandomBrightness(p=0.5),
+    A.Solarize(threshold=50, p=0.7),
+    A.PixelDropout(drop_value=0, dropout_prob=0.02, p=0.8),
+    A.RandomGamma(p=0.3),
+    A.RandomShadow(p=0.5, shadow_roi=(0, 0.7, 1, 1), num_shadows_lower=1, num_shadows_upper=2, shadow_dimension=4),
+    A.RandomToneCurve(p=0.7),
+    # A.RandomSunFlare(src_color=(255, 255, 255), p=1),
+], p=aug_p)
 
   def on_epoch_end(self):
     if self.shuffle:
@@ -264,9 +285,26 @@ class DataGenerator3(Sequence):
       img = np.asarray(pimg)
       img = np.float32(img)
       img = img
+
+      if self.aug_p !=0:
+        rnd = random.randint(1,2)
+        rnd = rnd - 1
+        img = (rnd)*(255 - img) + (1-rnd)*img
+      else:
+        continue
+
       random.seed(a)
       transformed = self.color_tranform(image=img)
-      rgb1.append(transformed['image'])
+      img = transformed
+
+      if self.aug_p !=0:
+        rnd = random.randint(1,2)
+        rnd = rnd - 1
+        img = (rnd)*(255 - img) + (1-rnd)*img
+      else:
+        continue
+
+      rgb1.append(img)
 
 
       # RGB2 data
@@ -275,9 +313,26 @@ class DataGenerator3(Sequence):
       img = np.asarray(pimg)
       img = np.float32(img)
       img = img
+      
+      if self.aug_p !=0:
+        rnd = random.randint(1,2)
+        rnd = rnd - 1
+        img = (rnd)*(255 - img) + (1-rnd)*img
+      else:
+        continue
+
       random.seed(a)
       transformed = self.color_tranform(image=img)
-      rgb2.append(transformed['image'])
+      img = transformed
+
+      if self.aug_p !=0:
+        rnd = random.randint(1,2)
+        rnd = rnd - 1
+        img = (rnd)*(255 - img) + (1-rnd)*img
+      else:
+        continue
+
+      rgb2.append(img)
 
       # RGB3 data
       img = cv2.cvtColor(cv2.imread(RGB3_path), cv2.COLOR_BGR2RGB)
@@ -285,9 +340,26 @@ class DataGenerator3(Sequence):
       img = np.asarray(pimg)
       img = np.float32(img)
       img = img
+      
+      if self.aug_p !=0:
+        rnd = random.randint(1,2)
+        rnd = rnd - 1
+        img = (rnd)*(255 - img) + (1-rnd)*img
+      else:
+        continue
+
       random.seed(a)
       transformed = self.color_tranform(image=img)
-      rgb3.append(transformed['image'])
+      img = transformed
+
+      if self.aug_p !=0:
+        rnd = random.randint(1,2)
+        rnd = rnd - 1
+        img = (rnd)*(255 - img) + (1-rnd)*img
+      else:
+        continue
+
+      rgb3.append(img)
 
       # grasp data
       with open(grasp_path,"r") as f:
