@@ -304,7 +304,7 @@ class DataGenerator3(Sequence):
       else:
         continue
 
-      img = np.float32(img)
+      # img = np.float32(img)
       rgb1.append(img)
 
 
@@ -333,7 +333,7 @@ class DataGenerator3(Sequence):
       else:
         continue
 
-      img = np.float32(img)
+      # img = np.float32(img)
       rgb2.append(img)
 
       # RGB3 data
@@ -361,7 +361,7 @@ class DataGenerator3(Sequence):
       else:
         continue
 
-      img = np.float32(img)
+      # img = np.float32(img)
       rgb3.append(img)
 
       # grasp data
