@@ -381,6 +381,8 @@ class DataGenerator3(Sequence):
       grasp[3]=grasp[3]/180
       
       grsp.append(grasp)
+      
+      print(a)
 
 
 
