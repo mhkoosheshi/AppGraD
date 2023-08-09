@@ -383,7 +383,7 @@ class DataGenerator3(Sequence):
       
       grsp.append(grasp)
       
-      print(a)
+      # print(a)
 
 
 
