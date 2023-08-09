@@ -294,7 +294,7 @@ class DataGenerator3(Sequence):
         continue
 
       random.seed(a)
-      transformed = self.color_transform(image=img)
+      transformed = self.color_transform(image=img)['image']
       img = transformed
 
       if self.aug_p !=0:
@@ -323,7 +323,7 @@ class DataGenerator3(Sequence):
         continue
 
       random.seed(a)
-      transformed = self.color_transform(image=img)
+      transformed = self.color_transform(image=img)['image']
       img = transformed
 
       if self.aug_p !=0:
@@ -351,7 +351,7 @@ class DataGenerator3(Sequence):
         continue
 
       random.seed(a)
-      transformed = self.color_transform(image=img)
+      transformed = self.color_transform(image=img)['image']
       img = transformed
 
       if self.aug_p !=0:
