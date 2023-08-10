@@ -498,7 +498,7 @@ def get_loader(batch_size=8,
                             batch_size=batch_size,
                             shape=shape,
                             shuffle=shuffle,
-                            aug_p=0
+                            aug_p=aug_p
                             )
 
     test_gen = DataGenerator3(RGB1_test,
