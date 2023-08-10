@@ -290,13 +290,12 @@ class DataGenerator3(Sequence):
         rnd = random.randint(1,2)
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
+        a = int(100*(random.random()))
+        random.seed(a)
+        transformed = self.color_transform(image=img)['image']
+        img = transformed
       else:
         continue
-      
-      a = int(100*(random.random()))
-      random.seed(a)
-      transformed = self.color_transform(image=img)['image']
-      img = transformed
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
@@ -320,12 +319,11 @@ class DataGenerator3(Sequence):
         rnd = random.randint(1,2)
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
+        random.seed(a)
+        transformed = self.color_transform(image=img)['image']
+        img = transformed
       else:
         continue
-
-      random.seed(a)
-      transformed = self.color_transform(image=img)['image']
-      img = transformed
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
@@ -348,12 +346,11 @@ class DataGenerator3(Sequence):
         rnd = random.randint(1,2)
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
+        random.seed(a)
+        transformed = self.color_transform(image=img)['image']
+        img = transformed
       else:
         continue
-
-      random.seed(a)
-      transformed = self.color_transform(image=img)['image']
-      img = transformed
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
