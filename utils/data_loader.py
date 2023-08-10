@@ -294,15 +294,11 @@ class DataGenerator3(Sequence):
         random.seed(a)
         transformed = self.color_transform(image=img)['image']
         img = transformed
-      else:
-        continue
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
-      else:
-        continue
 
       # img = np.float32(img)
       rgb1.append(img)
@@ -322,15 +318,11 @@ class DataGenerator3(Sequence):
         random.seed(a)
         transformed = self.color_transform(image=img)['image']
         img = transformed
-      else:
-        continue
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
-      else:
-        continue
 
       # img = np.float32(img)
       rgb2.append(img)
@@ -349,15 +341,11 @@ class DataGenerator3(Sequence):
         random.seed(a)
         transformed = self.color_transform(image=img)['image']
         img = transformed
-      else:
-        continue
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
-      else:
-        continue
 
       # img = np.float32(img)
       rgb3.append(img)
