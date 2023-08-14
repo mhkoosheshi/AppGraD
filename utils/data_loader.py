@@ -226,12 +226,12 @@ class DataGenerator3(Sequence):
 
     self.others = A.Compose([
       A.RandomBrightness(p=0.5),
-      # A.FancyPCA(p=0.3),
+      A.FancyPCA(p=0.3),
       A.RandomShadow(p=0.2, shadow_roi=(0, 0.7, 1, 1), num_shadows_lower=1, num_shadows_upper=2, shadow_dimension=4),
       A.RandomToneCurve(p=0.3),
       A.Solarize(threshold=50, p=0.5),
       A.PixelDropout(drop_value=0, dropout_prob=0.02, p=0.5),
-      # A.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=30, val_shift_limit=50, p=0.7)
+      A.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=30, val_shift_limit=50, p=0.7)
     ], p=others_p) 
 
     self.color_transform = A.Compose([
@@ -286,7 +286,7 @@ class DataGenerator3(Sequence):
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
-        rnd = 2
+        # rnd = 2
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
 
@@ -311,7 +311,7 @@ class DataGenerator3(Sequence):
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
-        rnd = 2
+        # rnd = 2
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
 
@@ -335,7 +335,7 @@ class DataGenerator3(Sequence):
 
       if self.aug_p !=0:
         rnd = random.randint(1,2)
-        rnd = 2
+        # rnd = 2
         rnd = rnd - 1
         img = (rnd)*(255 - img) + (1-rnd)*img
 
