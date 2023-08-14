@@ -201,8 +201,10 @@ class DataGenerator3(Sequence):
               batch_size=8,
               shape=(224,224),
               shuffle=True,
-              aug_p=0.7
-              ):
+              aug_p=0.7,
+              iso_p=0.8,
+              noise_p=0.5,
+              others_p=0.5):
 
     self.RGB1_paths = RGB1_paths
     self.RGB2_paths = RGB2_paths
@@ -212,46 +214,31 @@ class DataGenerator3(Sequence):
     self.shape = shape
     self.shuffle = shuffle
     self.aug_p = aug_p
+    self.iso_p = iso_p
+    self.noise_p = noise_p
+    self.others_p = others_p
     self.on_epoch_end()
 
-    # self.color_tranform = self.color_transform = A.Compose([
-    #   A.GaussNoise(p=0.5),
-    #   A.RandomBrightnessContrast(p=0.5, brightness_limit=0.2, contrast_limit=0.2),
-    #   A.RandomBrightness(limit=0.2,p=0.5),
-    #   A.RandomContrast(limit=0.2,p=0.5),
-    #   A.Sharpen(p=0.5),
-    #   A.RandomGamma(p=0.5),
-    #   A.RandomToneCurve(p=0),
-    #   A.RingingOvershoot(p=0),
-    #   A.RGBShift(p=0),
-    #   A.CLAHE(p=0),
-    #   A.PixelDropout(p=0),
-    #   A.HueSaturationValue(p=0),
-    #   A.ChannelShuffle(p=0)],
-    #   p=aug_p)
+    self.noise = A.Compose([
+      A.GaussNoise(p=0.5),
+      A.MultiplicativeNoise(p=0.5),
+    ], p=noise_p)
+
+    self.others = A.Compose([
+      A.RandomBrightness(p=0.5),
+      A.FancyPCA(p=0.3),
+      A.RandomShadow(p=0.2, shadow_roi=(0, 0.7, 1, 1), num_shadows_lower=1, num_shadows_upper=2, shadow_dimension=4),
+      A.RandomToneCurve(p=0.3),
+      A.Solarize(threshold=50, p=0.5),
+      A.PixelDropout(drop_value=0, dropout_prob=0.02, p=0.5),
+      A.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=30, val_shift_limit=50, p=0.7)
+    ], p=others_p) 
 
     self.color_transform = A.Compose([
-    # A.ChannelShuffle(p=0.5),
-    A.CLAHE(p=0),
-    # A.ColorJitter(p=1),
-    A.Emboss(p=0),
-    # A.Equalize(mode='cv', by_channels=True, p=1),
-    A.FancyPCA(p=0.7),
-    A.GaussNoise(p=0.5),
-    A.ISONoise(p=0.9, color_shift=(0.01, 0.05), intensity=(0.3, 0.6)),
-    A.MultiplicativeNoise(p=0.5),
-    A.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=30, val_shift_limit=50, p=0.7),
-    # A.RGBShift(p=1),
-    # A.ToGray(p=1),
-    A.RandomBrightnessContrast(p=0.7),
-    A.RandomBrightness(p=0.5),
-    A.Solarize(threshold=50, p=0.7),
-    A.PixelDropout(drop_value=0, dropout_prob=0.02, p=0.8),
-    A.RandomGamma(p=0.3),
-    A.RandomShadow(p=0.5, shadow_roi=(0, 0.7, 1, 1), num_shadows_lower=1, num_shadows_upper=2, shadow_dimension=4),
-    A.RandomToneCurve(p=0.7),
-    # A.RandomSunFlare(src_color=(255, 255, 255), p=1),
-], p=aug_p)
+    A.ISONoise(p=iso_p, color_shift=(0.01, 0.05), intensity=(0.2, 0.5)),
+    self.others,
+    self.noise
+    ], p=aug_p)
 
   def on_epoch_end(self):
     if self.shuffle:
@@ -388,7 +375,10 @@ def get_loader(batch_size=8,
               shuffle=True,
               factor=0.15,
               aug=False,
-              aug_p=0):
+              aug_p=0,
+              iso_p=0.8,
+              noise_p=0.5,
+              others_p=0.5):
   
 
   if branches=='one' or branches=='two_rgbd':
@@ -479,7 +469,10 @@ def get_loader(batch_size=8,
                                batch_size=batch_size,
                                shape=shape,
                                shuffle=shuffle,
-                               aug_p=aug_p
+                               aug_p=aug_p,
+                               iso_p=0.8,
+                               noise_p=0.5,
+                               others_p=0.5
                                )
     val_gen = DataGenerator3(RGB1_val,
                             RGB2_val, 
@@ -488,7 +481,10 @@ def get_loader(batch_size=8,
                             batch_size=batch_size,
                             shape=shape,
                             shuffle=shuffle,
-                            aug_p=0
+                            aug_p=0,
+                            iso_p=0.8,
+                            noise_p=0.5,
+                            others_p=0.5
                             )
 
     test_gen = DataGenerator3(RGB1_test,
@@ -498,7 +494,10 @@ def get_loader(batch_size=8,
                               batch_size=batch_size,
                               shape=shape,
                               shuffle=False,
-                              aug_p=0
+                              aug_p=0,
+                              iso_p=0,
+                              noise_p=0,
+                              others_p=0
                               )
   # elif branches=='three_d':
   #   RGB_paths, D_paths, grasp_paths = path_lists(branches=branches)
