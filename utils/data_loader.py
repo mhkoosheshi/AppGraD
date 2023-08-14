@@ -378,7 +378,8 @@ def get_loader(batch_size=8,
               aug_p=0,
               iso_p=0.8,
               noise_p=0.5,
-              others_p=0.5):
+              others_p=0.5,
+              val_aug_p=0):
   
 
   if branches=='one' or branches=='two_rgbd':
@@ -481,7 +482,7 @@ def get_loader(batch_size=8,
                             batch_size=batch_size,
                             shape=shape,
                             shuffle=shuffle,
-                            aug_p=0,
+                            aug_p=val_aug_p,
                             iso_p=0.8,
                             noise_p=0.5,
                             others_p=0.5
