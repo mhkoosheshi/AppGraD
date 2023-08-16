@@ -171,11 +171,11 @@ def test_path_lists(branches='one'):
 
 def unison_shuffle(a, b, c, d=None):
   if d is None:
-    random.seed(42)
+    np.random.seed(42)
     inx=np.random.permutation(a.shape[0])
     return a[inx],b[inx],c[inx]
   elif d is not None:
-    random.seed(42)
+    np.random.seed(42)
     inx=np.random.permutation(a.shape[0])
     return a[inx], b[inx], c[inx], d[inx]
 
