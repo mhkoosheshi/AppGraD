@@ -235,7 +235,7 @@ class DataGenerator3(Sequence):
     ], p=others_p) 
 
     self.color_transform = A.Compose([
-    A.ISONoise(p=iso_p, color_shift=(0.01, 0.05), intensity=(0.2, 0.5)),
+    A.ISONoise(p=iso_p, color_shift=(0.03, 0.06), intensity=(0.4, 0.6)),
     self.others,
     self.noise
     ], p=aug_p)
