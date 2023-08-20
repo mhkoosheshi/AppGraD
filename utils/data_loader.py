@@ -220,7 +220,7 @@ class DataGenerator3(Sequence):
     self.on_epoch_end()
 
     self.noise = A.Compose([
-      A.GaussNoise(p=0.5),
+      A.GaussNoise(p=0.5, var_limit=(20.0, 60.0), mean=5),
       A.MultiplicativeNoise(p=0.5),
     ], p=noise_p)
 
