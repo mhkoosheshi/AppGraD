@@ -483,9 +483,9 @@ def get_loader(batch_size=8,
                                shape=shape,
                                shuffle=shuffle,
                                aug_p=aug_p,
-                               iso_p=0.8,
-                               noise_p=0.5,
-                               others_p=0.5,
+                               iso_p=iso_p,
+                               noise_p=noise_p,
+                               others_p=others_p,
                                color=color
                                )
     val_gen = DataGenerator3(RGB1_val,
@@ -496,9 +496,9 @@ def get_loader(batch_size=8,
                             shape=shape,
                             shuffle=shuffle,
                             aug_p=val_aug_p,
-                            iso_p=0.8,
-                            noise_p=0.5,
-                            others_p=0.5,
+                            iso_p=iso_p,
+                            noise_p=noise_p,
+                            others_p=others_p,
                             color=color
                             )
 
