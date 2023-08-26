@@ -220,18 +220,18 @@ class DataGenerator3(Sequence):
     self.on_epoch_end()
 
     self.noise = A.Compose([
-      A.GaussNoise(p=0.5, var_limit=(30.0, 60.0), mean=15),
-      A.MultiplicativeNoise(p=0.5),
+      A.GaussNoise(p=1, var_limit=(30.0, 60.0), mean=5),
+      A.MultiplicativeNoise(p=1),
     ], p=noise_p)
 
     self.others = A.Compose([
-      A.RandomBrightness(p=0.5),
-      A.FancyPCA(p=0.3),
-      A.RandomShadow(p=0.2, shadow_roi=(0, 0.7, 1, 1), num_shadows_lower=1, num_shadows_upper=2, shadow_dimension=4),
-      A.RandomToneCurve(p=0.3),
-      A.Solarize(threshold=50, p=0.5),
-      A.PixelDropout(drop_value=0, dropout_prob=0.02, p=0.5),
-      A.HueSaturationValue(hue_shift_limit=20, sat_shift_limit=30, val_shift_limit=50, p=0.7)
+      # A.RandomBrightness(p=0.5),
+      A.FancyPCA(p=0.5),
+      A.RandomShadow(p=0.5, shadow_roi=(0, 0, 1, 1), num_shadows_lower=1, num_shadows_upper=1, shadow_dimension=3),
+      A.RandomToneCurve(p=0.5),
+      # A.Solarize(threshold=50, p=0.5),
+      A.PixelDropout(drop_value=0, dropout_prob=0.02, p=1),
+      A.HueSaturationValue(hue_shift_limit=30, sat_shift_limit=30, val_shift_limit=10, p=0.5)
     ], p=others_p) 
 
     self.color_transform = A.Compose([
