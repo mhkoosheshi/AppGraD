@@ -299,7 +299,7 @@ class DataGenerator3(Sequence):
         transformed = self.color_transform(image=img)['image']
         img = transformed
 
-      if self.aug_p !=0:
+      # if self.aug_p !=0:
         # rnd = random.randint(1,2)
         # # rnd = 2
         # rnd = rnd - 1
@@ -326,7 +326,7 @@ class DataGenerator3(Sequence):
         transformed = self.color_transform(image=img)['image']
         img = transformed
 
-      if self.aug_p !=0:
+      # if self.aug_p !=0:
         # rnd = random.randint(1,2)
         # # rnd = 2
         # rnd = rnd - 1
@@ -352,7 +352,7 @@ class DataGenerator3(Sequence):
         transformed = self.color_transform(image=img)['image']
         img = transformed
 
-      if self.aug_p !=0:
+      # if self.aug_p !=0:
         # rnd = random.randint(1,2)
         # # rnd = 2
         # rnd = rnd - 1
