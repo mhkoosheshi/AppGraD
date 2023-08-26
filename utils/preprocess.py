@@ -258,3 +258,48 @@ def get_params(trainy, bb, param_mode = [1,1,0,1,1], shape=(512,512), bb_norm=Fa
   trainy = y_
 
   return trainy
+
+
+def sim2real(x, color:list = [50, 50, 50]):
+  img = x.copy()
+  x[:,:,0] = x[:,:,0] - 79
+  x[:,:,1] = x[:,:,1] - 255
+  x[:,:,2] = x[:,:,2] - 104
+  x = x/255
+  x = np.ceil(x)
+  x = x[:,:,1]
+  x = np.array(x, np.uint8)
+  x1 = cv2.bitwise_and(img, img, mask=x)
+  x2 = cv2.bitwise_and(img, img, mask=1-x)
+  x1[:,:,[0,1,2]] = x1[:,:,[2,0,1]]
+  x1gray = cv2.cvtColor(x1, cv2.COLOR_BGR2GRAY)
+  _, alpha = cv2.threshold(x1gray, 0, 255, cv2.THRESH_BINARY)
+
+  b, g, r = cv2.split(x1)
+
+  x1 = [b, g, r, alpha]
+
+  x1_ = cv2.merge(x1, 4)
+  x1 = x1_[:,:,[0,1,2]]
+  x1 = cv2.bitwise_and(x1, x1, mask=x1_[:,:,3])
+
+  x1gray = cv2.cvtColor(x1, cv2.COLOR_BGR2GRAY)
+  _, alpha = cv2.threshold(x1gray, 0, 255, cv2.THRESH_BINARY)
+
+  b, g, r = cv2.split(x1)
+
+  x1 = [b, g, r, alpha]
+
+  x1 = cv2.merge(x1, 4)
+
+  x1[:,:,[2,1,0]] = x1[:,:,[2,1,0]] * x1[:,:,[3]]
+  x2 = np.full((512, 512, 3), [255 - color[0], 255 - color[0], 255 - color[0]])
+  alpha = np.stack([alpha, alpha, alpha], axis=-1)
+
+  x2 = 255 - np.bitwise_or(x2, alpha, where=True)
+
+  x = x1[:,:,[0,1,2]]+x2
+
+  x = np.array(x, np.uint8)
+
+  return x
