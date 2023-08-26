@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 import albumentations as A
 import random
 from tensorflow.keras.utils import Sequence
-from utils.preprocess import path_lists, test_path_lists, unison_shuffle, ImageToFloatArray
+from utils.preprocess import path_lists, test_path_lists, unison_shuffle, ImageToFloatArray, sim2real
 import albumentations as A
 
 class DataGenerator(Sequence):
@@ -204,7 +204,8 @@ class DataGenerator3(Sequence):
               aug_p=0.7,
               iso_p=0.8,
               noise_p=0.5,
-              others_p=0.5):
+              others_p=0.5,
+              color=None):
 
     self.RGB1_paths = RGB1_paths
     self.RGB2_paths = RGB2_paths
@@ -217,6 +218,7 @@ class DataGenerator3(Sequence):
     self.iso_p = iso_p
     self.noise_p = noise_p
     self.others_p = others_p
+    self.color = color
     self.on_epoch_end()
 
     self.noise = A.Compose([
@@ -270,6 +272,8 @@ class DataGenerator3(Sequence):
       
       # RGB1 data
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
+      if self.color is not None:\
+        img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       # img = np.float32(img)
@@ -296,6 +300,8 @@ class DataGenerator3(Sequence):
 
       # RGB2 data
       img = cv2.cvtColor(cv2.imread(RGB2_path), cv2.COLOR_BGR2RGB)
+      if self.color is not None:\
+        img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       # img = np.float32(img)
@@ -320,6 +326,8 @@ class DataGenerator3(Sequence):
 
       # RGB3 data
       img = cv2.cvtColor(cv2.imread(RGB3_path), cv2.COLOR_BGR2RGB)
+      if self.color is not None:\
+        img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       # img = np.float32(img)
@@ -382,7 +390,8 @@ def get_loader(batch_size=8,
               iso_p=0.8,
               noise_p=0.5,
               others_p=0.5,
-              val_aug_p=0):
+              val_aug_p=0,
+              color=None):
   
 
   if branches=='one' or branches=='two_rgbd':
@@ -476,7 +485,8 @@ def get_loader(batch_size=8,
                                aug_p=aug_p,
                                iso_p=0.8,
                                noise_p=0.5,
-                               others_p=0.5
+                               others_p=0.5,
+                               color=color
                                )
     val_gen = DataGenerator3(RGB1_val,
                             RGB2_val, 
@@ -488,7 +498,8 @@ def get_loader(batch_size=8,
                             aug_p=val_aug_p,
                             iso_p=0.8,
                             noise_p=0.5,
-                            others_p=0.5
+                            others_p=0.5,
+                            color=color
                             )
 
     test_gen = DataGenerator3(RGB1_test,
@@ -501,7 +512,8 @@ def get_loader(batch_size=8,
                               aug_p=0,
                               iso_p=0,
                               noise_p=0,
-                              others_p=0
+                              others_p=0,
+                              color=color
                               )
   # elif branches=='three_d':
   #   RGB_paths, D_paths, grasp_paths = path_lists(branches=branches)
