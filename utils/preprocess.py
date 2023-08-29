@@ -293,7 +293,7 @@ def sim2real(x, color:list = [50, 50, 50]):
   x1 = cv2.merge(x1, 4)
 
   x1[:,:,[2,1,0]] = x1[:,:,[2,1,0]] * x1[:,:,[3]]
-  x2 = np.full((512, 512, 3), [255 - color[0], 255 - color[0], 255 - color[0]])
+  x2 = np.full((512, 512, 3), [255 - color[0], 255 - color[1], 255 - color[2]])
   alpha = np.stack([alpha, alpha, alpha], axis=-1)
 
   x2 = 255 - np.bitwise_or(x2, alpha, where=True)
