@@ -403,7 +403,8 @@ def get_loader(batch_size=8,
               others_p=0.5,
               val_aug_p=0,
               color=None,
-              shuffle_val=False):
+              shuffle_val=False,
+              print=False):
   
 
   if branches=='one' or branches=='two_rgbd':
@@ -482,6 +483,8 @@ def get_loader(batch_size=8,
     RGB2_train, RGB2_val = RGB2_paths[int(n*factor):], RGB2_paths[:int(n*factor)]
     RGB3_train, RGB3_val = RGB3_paths[int(n*factor):], RGB3_paths[:int(n*factor)]
     grasp_train, grasp_val = grasp_paths[int(n*factor):], grasp_paths[:int(n*factor)]
+    if print:
+      print(grasp_val)
     
     if aug:
       RGB1_train, RGB2_train, RGB3_train, grasp_train = 2*RGB1_train, 2*RGB2_train, 2*RGB3_train, 2*grasp_train
