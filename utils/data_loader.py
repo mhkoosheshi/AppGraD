@@ -402,7 +402,8 @@ def get_loader(batch_size=8,
               noise_p=0.5,
               others_p=0.5,
               val_aug_p=0,
-              color=None):
+              color=None,
+              shuffle_val=False):
   
 
   if branches=='one' or branches=='two_rgbd':
@@ -474,7 +475,8 @@ def get_loader(batch_size=8,
     RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = path_lists(branches=branches)
     n = len(RGB1_paths)
     RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = np.array(RGB1_paths), np.array(RGB2_paths), np.array(RGB3_paths), np.array(grasp_paths)
-    RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = unison_shuffle(a=RGB1_paths, b=RGB2_paths, c=RGB3_paths, d=grasp_paths)
+    if shuffle_val:
+      RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = unison_shuffle(a=RGB1_paths, b=RGB2_paths, c=RGB3_paths, d=grasp_paths)
     RGB1_paths, RGB2_paths, RGB3_paths, grasp_paths = list(RGB1_paths), list(RGB2_paths), list(RGB3_paths), list(grasp_paths)
     RGB1_train, RGB1_val = RGB1_paths[int(n*factor):], RGB1_paths[:int(n*factor)]
     RGB2_train, RGB2_val = RGB2_paths[int(n*factor):], RGB2_paths[:int(n*factor)]
