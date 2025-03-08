@@ -145,6 +145,10 @@ def test_path_lists(branches='one'):
     list_RGB2 = sorted(list_RGB2)
     list_RGB3 = sorted(list_RGB3)
     list_grasp = sorted(list_grasp)
+    print(list_RGB1)
+    print(list_RGB2)
+    print(list_RGB3)
+    print(list_grasp)
 
     return list_RGB1, list_RGB2, list_RGB3, list_grasp
 
