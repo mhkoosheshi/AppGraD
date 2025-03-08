@@ -304,7 +304,7 @@ class DataGenerator3(Sequence):
       
       # img = np.float32(img)
       rgb1.append(img)
-      print(rgb1)
+      # print(rgb1)
 
 
       # RGB2 data
