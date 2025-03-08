@@ -284,14 +284,15 @@ class DataGenerator3(Sequence):
       
       # RGB1 data
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
-      plt.imshow(img)
-      plt.show()
+      
       # if self.color is not None:
       #   img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       # img = np.float32(img)
       img = img
+      plt.imshow(img)
+      plt.show()
 
       # if self.aug_p !=0:
       #   # rnd = random.randint(1,2)
@@ -361,7 +362,7 @@ class DataGenerator3(Sequence):
       # grasp data
       with open(grasp_path,"r") as f:
         s = f.read()
-        print(s)
+        print(s.split(","))
       grasp = [float(s.split(",")[i]) for i in range(0,len(s.split(",")))]
       # grasp[0] = (grasp[0]-155)/(355-155)
       # grasp[1] = (grasp[1]-185)/(410-185)
