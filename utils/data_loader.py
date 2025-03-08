@@ -291,8 +291,7 @@ class DataGenerator3(Sequence):
       img = np.asarray(pimg)
       # img = np.float32(img)
       img = img
-      plt.imshow(img)
-      plt.show()
+
 
       # if self.aug_p !=0:
       #   # rnd = random.randint(1,2)
@@ -305,6 +304,7 @@ class DataGenerator3(Sequence):
       
       # img = np.float32(img)
       rgb1.append(img)
+      print(rgb1)
 
 
       # RGB2 data
@@ -362,8 +362,8 @@ class DataGenerator3(Sequence):
       # grasp data
       with open(grasp_path,"r") as f:
         s = f.read()
-        print(s.split(","))
-      grasp = [float(s.split(",")[i]) for i in range(0,len(s.split(",")))]
+        # print(s.split(","))
+      grasp = [float(s.split(",")[i]) for i in range(0,len(s.split(","))-1)]
       # grasp[0] = (grasp[0]-155)/(355-155)
       # grasp[1] = (grasp[1]-185)/(410-185)
       grasp[0] = (((0.5*grasp[0])/512 - 0.125)/0.25)
