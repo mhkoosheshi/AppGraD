@@ -361,6 +361,7 @@ class DataGenerator3(Sequence):
       # grasp data
       with open(grasp_path,"r") as f:
         s = f.read()
+        print(s)
       grasp = [float(s.split(",")[i]) for i in range(0,len(s.split(",")))]
       # grasp[0] = (grasp[0]-155)/(355-155)
       # grasp[1] = (grasp[1]-185)/(410-185)
