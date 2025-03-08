@@ -4,6 +4,7 @@ import os
 import math
 import cv2
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 import albumentations as A
 import random
 from tensorflow.keras.utils import Sequence
@@ -283,6 +284,8 @@ class DataGenerator3(Sequence):
       
       # RGB1 data
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
+      plt.imshow(img)
+      plt.show()
       # if self.color is not None:
       #   img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
