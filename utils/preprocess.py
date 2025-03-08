@@ -138,7 +138,7 @@ def test_path_lists(branches='one'):
     for im_path in glob.glob(f"/content/drive/MyDrive/AppGraD/test/vs12/rgb*.png"):
       list_RGB3.append(im_path)
 
-    for c, grasp_path in enumerate(glob.glob("/content/drive/MyDrive/AppGraD/test/grasp/grasp*.txt")):
+    for c, grasp_path in enumerate(glob.glob("/content/drive/MyDrive/AppGraD/test/grasp/*.txt")):
       list_grasp.append(grasp_path)
 
     list_RGB1 = sorted(list_RGB1)
