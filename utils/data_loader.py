@@ -5,11 +5,11 @@ import math
 import cv2
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
-import albumentations as A
+# import albumentations as A
 import random
 from tensorflow.keras.utils import Sequence
 from utils.preprocess import path_lists, test_path_lists, unison_shuffle, ImageToFloatArray, sim2real
-import albumentations as A
+# import albumentations as A
 
 class DataGenerator(Sequence):
   '''
