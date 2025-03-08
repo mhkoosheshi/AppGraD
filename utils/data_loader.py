@@ -221,39 +221,39 @@ class DataGenerator3(Sequence):
     self.color = color
     self.on_epoch_end()
 
-    self.noise = A.Compose([
-      A.GaussNoise(p=0.9, var_limit=(30.0, 60.0), mean=5),
-      A.MultiplicativeNoise(p=0.7),
-    ], p=noise_p)
+    # self.noise = A.Compose([
+    #   A.GaussNoise(p=0.9, var_limit=(30.0, 60.0), mean=5),
+    #   A.MultiplicativeNoise(p=0.7),
+    # ], p=noise_p)
 
-    self.others = A.Compose([
-      # A.RandomBrightness(p=0.5),
-      A.FancyPCA(p=0.2),
-      A.RandomShadow(p=0.1, shadow_roi=(0, 0, 1, 1), num_shadows_lower=1, num_shadows_upper=1, shadow_dimension=2),
-      A.RandomToneCurve(p=0.2),
-      # A.Solarize(threshold=50, p=0.5),
-      A.PixelDropout(drop_value=0, dropout_prob=0.02, p=0.9),
-      A.HueSaturationValue(hue_shift_limit=30, sat_shift_limit=30, val_shift_limit=10, p=0.2)
-    ], p=others_p) 
+    # self.others = A.Compose([
+    #   # A.RandomBrightness(p=0.5),
+    #   A.FancyPCA(p=0.2),
+    #   A.RandomShadow(p=0.1, shadow_roi=(0, 0, 1, 1), num_shadows_lower=1, num_shadows_upper=1, shadow_dimension=2),
+    #   A.RandomToneCurve(p=0.2),
+    #   # A.Solarize(threshold=50, p=0.5),
+    #   A.PixelDropout(drop_value=0, dropout_prob=0.02, p=0.9),
+    #   A.HueSaturationValue(hue_shift_limit=30, sat_shift_limit=30, val_shift_limit=10, p=0.2)
+    # ], p=others_p) 
 
-    self.color_transform = A.Compose([
-    A.ISONoise(p=iso_p, color_shift=(0.05, 0.06), intensity=(0.5, 0.6)),
-    self.others,
-    self.noise
-    ], p=aug_p)
+    # self.color_transform = A.Compose([
+    # A.ISONoise(p=iso_p, color_shift=(0.05, 0.06), intensity=(0.5, 0.6)),
+    # self.others,
+    # self.noise
+    # ], p=aug_p)
 
-    self.sim2real_transform = A.Compose([
-    A.FancyPCA(p=0.5, alpha=0.1),
-    A.GaussNoise(p=1, var_limit=(30.0, 60.0), mean=0),
-    A.ISONoise(p=1, color_shift=(0.05, 0.06), intensity=(0.5, 0.6)),
-    A.MultiplicativeNoise(p=1),
-    A.HueSaturationValue(p=0.5, hue_shift_limit=50, sat_shift_limit=20, val_shift_limit=10),
-    A.RandomBrightnessContrast(p=0.5),
-    A.PixelDropout(p=1, drop_value=0, dropout_prob=0.02),
-    A.RandomGamma(p=0.1),
-    A.RandomShadow(p=0.5, shadow_roi=(0, 0, 1, 1), num_shadows_lower=1, num_shadows_upper=2, shadow_dimension=4),
-    A.RandomToneCurve(p=0.5),
-    ], p=1)
+    # self.sim2real_transform = A.Compose([
+    # A.FancyPCA(p=0.5, alpha=0.1),
+    # A.GaussNoise(p=1, var_limit=(30.0, 60.0), mean=0),
+    # A.ISONoise(p=1, color_shift=(0.05, 0.06), intensity=(0.5, 0.6)),
+    # A.MultiplicativeNoise(p=1),
+    # A.HueSaturationValue(p=0.5, hue_shift_limit=50, sat_shift_limit=20, val_shift_limit=10),
+    # A.RandomBrightnessContrast(p=0.5),
+    # A.PixelDropout(p=1, drop_value=0, dropout_prob=0.02),
+    # A.RandomGamma(p=0.1),
+    # A.RandomShadow(p=0.5, shadow_roi=(0, 0, 1, 1), num_shadows_lower=1, num_shadows_upper=2, shadow_dimension=4),
+    # A.RandomToneCurve(p=0.5),
+    # ], p=1)
 
   def on_epoch_end(self):
     if self.shuffle:
@@ -283,48 +283,42 @@ class DataGenerator3(Sequence):
       
       # RGB1 data
       img = cv2.cvtColor(cv2.imread(RGB1_path), cv2.COLOR_BGR2RGB)
-      if self.color is not None:
-        img = sim2real(x=img, color=self.color)
+      # if self.color is not None:
+      #   img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       # img = np.float32(img)
       img = img
 
-      if self.aug_p !=0:
-        # rnd = random.randint(1,2)
-        # rnd = rnd - 1
-        # img = (rnd)*(255 - img) + (1-rnd)*img
-        a = int(100*(random.random()))
-        random.seed(a)
-        transformed = self.color_transform(image=img)['image']
-        img = transformed
-
       # if self.aug_p !=0:
-        # rnd = random.randint(1,2)
-        # # rnd = 2
-        # rnd = rnd - 1
-        # img = (rnd)*(255 - img) + (1-rnd)*img
-
+      #   # rnd = random.randint(1,2)
+      #   # rnd = rnd - 1
+      #   # img = (rnd)*(255 - img) + (1-rnd)*img
+      #   a = int(100*(random.random()))
+      #   random.seed(a)
+      #   transformed = self.color_transform(image=img)['image']
+      #   img = transformed
+      
       # img = np.float32(img)
       rgb1.append(img)
 
 
       # RGB2 data
       img = cv2.cvtColor(cv2.imread(RGB2_path), cv2.COLOR_BGR2RGB)
-      if self.color is not None:
-        img = sim2real(x=img, color=self.color)
+      # if self.color is not None:
+      #   img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       # img = np.float32(img)
       img = img
       
-      if self.aug_p !=0:
-        # rnd = random.randint(1,2)
-        # rnd = rnd - 1
-        # img = (rnd)*(255 - img) + (1-rnd)*img
-        random.seed(a)
-        transformed = self.color_transform(image=img)['image']
-        img = transformed
+      # if self.aug_p !=0:
+      #   # rnd = random.randint(1,2)
+      #   # rnd = rnd - 1
+      #   # img = (rnd)*(255 - img) + (1-rnd)*img
+      #   random.seed(a)
+      #   transformed = self.color_transform(image=img)['image']
+      #   img = transformed
 
       # if self.aug_p !=0:
         # rnd = random.randint(1,2)
@@ -337,20 +331,20 @@ class DataGenerator3(Sequence):
 
       # RGB3 data
       img = cv2.cvtColor(cv2.imread(RGB3_path), cv2.COLOR_BGR2RGB)
-      if self.color is not None:
-        img = sim2real(x=img, color=self.color)
+      # if self.color is not None:
+      #   img = sim2real(x=img, color=self.color)
       pimg = (Image.fromarray(img)).resize((self.shape[0], self.shape[1]))
       img = np.asarray(pimg)
       # img = np.float32(img)
       img = img
       
-      if self.aug_p !=0:
-        # rnd = random.randint(1,2)
-        # rnd = rnd - 1
-        # img = (rnd)*(255 - img) + (1-rnd)*img
-        random.seed(a)
-        transformed = self.color_transform(image=img)['image']
-        img = transformed
+      # if self.aug_p !=0:
+      #   # rnd = random.randint(1,2)
+      #   # rnd = rnd - 1
+      #   # img = (rnd)*(255 - img) + (1-rnd)*img
+      #   random.seed(a)
+      #   transformed = self.color_transform(image=img)['image']
+      #   img = transformed
 
       # if self.aug_p !=0:
         # rnd = random.randint(1,2)
