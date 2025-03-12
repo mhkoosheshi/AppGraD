@@ -342,6 +342,6 @@ if __name__=='__main':
                                 shape=(224,224),
                                 plot_size=(224,224),
                                 plot_mode = 'rectangles',
-                                batch_siz e=batch_size
+                                batch_size=batch_size
                                 )
   
