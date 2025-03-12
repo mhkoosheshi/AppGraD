@@ -249,14 +249,14 @@ def grasp_success_rate(model_path,
                        ):
   h = 49*batch_size
 
-  model = load_model(
-      model_path,
-      custom_objects={
-          "Huber": tf.keras.losses.Huber(delta=1.0, reduction="sum"),  # Use a valid reduction
-          "logcosh": tf.keras.losses.LogCosh()
-      },
-      # compile=False  # Skip compiling if unnecessary
-  )
+  model = tf.keras.models.load_model(
+                                      model_path,
+                                      custom_objects={
+                                          "Huber": tf.keras.losses.Huber,
+                                          "logcosh": tf.keras.losses.LogCosh
+                                      },
+                                      compile=False  # safer first step
+                                  )
   # model = load_model(model_path, compile=False)
   # model.load_weights(model_path)
 
