@@ -3,6 +3,8 @@ from PIL import Image
 import glob
 import os
 import cv2
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 # from google.colab.patches import cv2_imshow
