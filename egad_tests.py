@@ -236,10 +236,12 @@ def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='poi
     string = scores[i]*'success' + np.abs(scores[i]-1)*'failure'
     plt.title(f"{i+1}, {string}")
     plt.imshow(img)
-    plt.savefig(f'{i}.png')
+    # plt.savefig(f'{i}.png')
     # plt.savefig(f'egad/{i}.png')
 
   # plt.show()
+  millis = round(time.time()*1000)
+  plt.savefig(f'{millis}.png')
 
 def grasp_success_rate(model_path,
                        test_gen,
