@@ -308,7 +308,7 @@ def grasp_success_rate(model_path,
 def RANGE(shape=(224,224)):
   RANGE_imgs = [] # should be preprocessed
   paths = []
-  for im_path in glob.glob('/content/drive/MyDrive/AppGraD/test/RANGE/rgb*.png'):
+  for im_path in glob.glob('/content/drive/MyDrive/AppGraD/test/RANGE/*.png'):
     paths.append(im_path)
 
   paths = sorted(paths)
