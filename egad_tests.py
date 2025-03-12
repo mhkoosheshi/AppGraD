@@ -16,11 +16,12 @@ import datetime
 import os
 import time
 from utils.data_loader import get_loader
-import osgeo
+# import osgeo
 # import rasterio
 # import rasterio.features
 import seaborn as sns
-from keras.models import load_model
+# from keras.models import load_model
+from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 import seaborn as sns
 from tensorflow.keras.models import model_from_json
