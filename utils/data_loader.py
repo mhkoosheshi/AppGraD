@@ -363,7 +363,7 @@ class DataGenerator3(Sequence):
       with open(grasp_path,"r") as f:
         s = f.read()
         # print(s.split(","))
-      grasp = [float(s.split(",")[i]) for i in range(0,len(s.split(",")))][0:-1]
+      grasp = [float(s.split(",")[i]) for i in range(0,len(s.split(","))-1)]
       # grasp[0] = (grasp[0]-155)/(355-155)
       # grasp[1] = (grasp[1]-185)/(410-185)
       grasp[0] = (((0.5*grasp[0])/512 - 0.125)/0.25)
