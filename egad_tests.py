@@ -234,8 +234,10 @@ def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='poi
     string = scores[i]*'success' + np.abs(scores[i]-1)*'failure'
     plt.title(f"{i+1}, {string}")
     plt.imshow(img)
+    plt.savefig(f'{i}.png')
+    # plt.savefig(f'egad/{i}.png')
 
-  plt.show()
+  # plt.show()
 
 def grasp_success_rate(model_path,
                        test_gen,
@@ -282,6 +284,9 @@ def grasp_success_rate(model_path,
     scores_b = score(jaccards[(i)*batch_size:(i+1)*batch_size],absangles[(i)*batch_size:(i+1)*batch_size])
     scores[(i)*batch_size:(i+1)*batch_size] = np.reshape(score(jaccards[(i)*batch_size:(i+1)*batch_size],absangles[(i)*batch_size:(i+1)*batch_size]),(batch_size,1))
 
+    print(f"Image shape: {RANGE_imgs_b.shape}")
+    print(f"Predictions shape: {pred_b.shape}")
+    print(f"Test shape: {test_b.shape}")
     plot_predictions(RANGE_imgs_b, pred_b, test_b, scores_b, shape=shape, plot_mode=plot_mode)
     print()
     print(f"Scores = {scores[(i)*batch_size:(i+1)*batch_size]}")
@@ -293,7 +298,7 @@ def grasp_success_rate(model_path,
     scores_table[i] = np.mean(scores[(i)*batch_size:(i+1)*batch_size])
 
   scores_table = np.reshape(scores_table, (3,3))
-  sns.heatmap(data=scores_table, annot=True, cmap='Blues')
+  # sns.heatmap(data=scores_table, annot=True, cmap='Blues')
   print(f"Overall Score is {np.mean(scores_table)}")
 
   return scores_table, jaccards
@@ -318,7 +323,7 @@ def RANGE(shape=(224,224)):
   return RANGE_imgs
 
 
-if __name__=='__main':
+if __name__=='__main__':
   
   branches = 'three_rgb'
   shape = (224,224)
@@ -336,6 +341,18 @@ if __name__=='__main':
                                 factor=0.15)
   
   RANGE_img = RANGE(shape=(224,224))
+
+  # directory_name = 'egad'
+  # try:
+  #     os.mkdir(directory_name)
+  #     print(f"Directory '{directory_name}' created successfully.")
+  # except FileExistsError:
+  #     print(f"Directory '{directory_name}' already exists.")
+  # except PermissionError:
+  #     print(f"Permission denied: Unable to create '{directory_name}'.")
+  # except Exception as e:
+  #     print(f"An error occurred: {e}")
+
 
   results = grasp_success_rate(model_path="/content/drive/MyDrive/weights_mohokoo/a/vgg16s2dsepconv_20230729-080924.h5",
                                 test_gen=test_gen,
