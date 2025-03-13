@@ -158,15 +158,18 @@ def score(jaccards, absangles):
   scores = np.array(scores)
 
   return scores
-
-def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='points'):
+  
+  def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='points'):
   '''
   images: RANGE
   '''
 
   # works on batches
   columns = 5
-  rows = 3
+  rows = 2
+  
+  fig = plt.figure(figsize=(25,9))
+
   for i in range(pred.shape[0]):
 
     pred_rect = list(pred[i,:])
@@ -228,20 +231,16 @@ def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='poi
       img = cv2.line(img, (int(pred_points[0][0]), int(pred_points[0][1])), (int(pred_points[1][0]),int(pred_points[1][1])), color=(0, 0, 255), thickness=-1)
       img = cv2.line(img, (int(test_points[0][0]),int(test_points[0][1])), (int(test_points[1][0]),int(test_points[1][1])), color=(255, 255, 255), thickness=-1)
 
-
-    fig = plt.figure(figsize=(25,9))
-
     fig.add_subplot(rows, columns, i+1)
     plt.axis('off')
     string = scores[i]*'success' + np.abs(scores[i]-1)*'failure'
     plt.title(f"{i+1}, {string}")
     plt.imshow(img)
-    # plt.savefig(f'{i}.png')
-    # plt.savefig(f'egad/{i}.png')
 
-  # plt.show()
   millis = round(time.time()*1000)
   plt.savefig(f'{millis}.png')
+  plt.close(fig)  
+
 
 def grasp_success_rate(model_path,
                        test_gen,
