@@ -29,7 +29,7 @@ import seaborn as sns
 from tensorflow.keras.models import model_from_json
 import pandas as pd
 
-def output_postprocess(pred, shape=(224,224)):
+def output_postprocess(pred, shape=(224,224), set=True):
 
   pred_ = np.zeros(pred.shape)
   # pred_[:, 0] = (355-155)*pred[:, 0] + 155
@@ -40,11 +40,12 @@ def output_postprocess(pred, shape=(224,224)):
   pred_[:, 3] = (180)*pred[:, 3] + 0
   pred_[:, 4] = ((105-25)*pred[:, 4] + 25)*1.05
 
-  for i in range(pred.shape[0]):
-    if pred_[i, 3]<90:
-      pred_[i, 3] = pred_[i, 3] + 90
-    elif pred_[i, 3]>90:
-      pred_[i, 3] = pred_[i, 3] -270
+  if set:
+    for i in range(pred.shape[0]):
+      if pred_[i, 3]<90:
+        pred_[i, 3] = pred_[i, 3] + 90
+      elif pred_[i, 3]>90:
+        pred_[i, 3] = pred_[i, 3] -270
 
   return pred_
 
@@ -272,8 +273,8 @@ def grasp_success_rate(model_path,
   for i in range(0,test_gen.__len__()):
 
     pred_b = output_postprocess(model.predict(test_gen.__getitem__(i)[0][:][:]))
-    test_b = output_postprocess(test_gen.__getitem__(i)[1][0][:])
-    test_b[:,3] = test_b[:,3] + 90
+    test_b = output_postprocess(test_gen.__getitem__(i)[1][0][:], False)
+    # test_b[:,3] = test_b[:,3] + 90
     RANGE_imgs_b = RANGE_imgs[(i)*batch_size:(i+1)*batch_size]
 
     pred_masks = render_mask(pred_b, shape=shape)
