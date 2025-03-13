@@ -192,8 +192,8 @@ def real_test(obj, i):
 
 if __name__=="__main__":
 
-  objects = ['anbor', 'bowl', 'box', 'cable', 'cup', 'L', 'ring', 'stapler', 'watch']
-  freq = [3, 2, 3, 3, 3, 3, 3, 3, 2]
+  objects = ['anbor', 'bowl', 'box', 'cable', 'cup', 'L', 'ring', 'stapler', 'watch', 'vase', 'screw']
+  freq = [3, 2, 3, 3, 3, 3, 3, 3, 2, 4, 3]
 
   for obj, f in zip(objects, freq):
     for i in range(1, f+1):
