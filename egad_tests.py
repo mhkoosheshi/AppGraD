@@ -159,7 +159,7 @@ def score(jaccards, absangles):
 
   return scores
   
-  def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='points'):
+def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='points'):
   '''
   images: RANGE
   '''
