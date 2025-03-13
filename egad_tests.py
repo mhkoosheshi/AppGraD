@@ -273,8 +273,8 @@ def grasp_success_rate(model_path,
   for i in range(0,test_gen.__len__()):
 
     pred_b = output_postprocess(model.predict(test_gen.__getitem__(i)[0][:][:]))
-    test_b = output_postprocess(test_gen.__getitem__(i)[1][0][:], False)
-    # test_b[:,3] = test_b[:,3] + 90
+    test_b = output_postprocess(test_gen.__getitem__(i)[1][0][:])
+    test_b[:,3] = test_b[:,3] + 90
     RANGE_imgs_b = RANGE_imgs[(i)*batch_size:(i+1)*batch_size]
 
     pred_masks = render_mask(pred_b, shape=shape)
