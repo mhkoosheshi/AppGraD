@@ -166,9 +166,9 @@ def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='poi
 
   # works on batches
   columns = 5
-  rows = 2
+  rows = 4
   
-  fig = plt.figure(figsize=(25,9))
+  fig = plt.figure(figsize=(25,18))
 
   for i in range(pred.shape[0]):
 
@@ -238,7 +238,7 @@ def plot_predictions(images, pred, test, scores, shape=(512,512), plot_mode='poi
     plt.imshow(img)
 
   millis = round(time.time()*1000)
-  plt.savefig(f'{millis}.png')
+  plt.savefig(f'/content/drive/MyDrive/AppGraD/test/egad_results/{millis}.png')
   plt.close(fig)  
 
 
@@ -330,7 +330,7 @@ if __name__=='__main__':
   shape = (224,224)
   factor = 0.15
   epochs = 100
-  batch_size = 10
+  batch_size = 20
   lr = 1e-4
   reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, min_lr=0.000001)
   early_stop = EarlyStopping(monitor='val_loss', patience=5)
