@@ -7,7 +7,7 @@ import matplotlib
 # matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
-from google.colab.patches import cv2_imshow
+# from google.colab.patches import cv2_imshow
 from shapely.geometry import Polygon
 import tensorflow as tf
 from tensorflow import keras
