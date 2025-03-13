@@ -258,12 +258,9 @@ def grasp_success_rate(model_path,
                                           "Huber": tf.keras.losses.Huber,
                                           "logcosh": tf.keras.losses.LogCosh
                                       },
-                                      compile=False  # safer first step
+                                      compile=False
                                   )
-  # model = load_model(model_path, compile=False)
-  # model.load_weights(model_path)
 
-  # model = keras.layers.TFSMLayer('/content/drive/MyDrive/a', call_endpoint='serving_default')
   pred_masks = [] # batch
   test_masks = [] # batch
   jaccards = np.zeros((h,1)) # total
@@ -276,6 +273,7 @@ def grasp_success_rate(model_path,
 
     pred_b = output_postprocess(model.predict(test_gen.__getitem__(i)[0][:][:]))
     test_b = output_postprocess(test_gen.__getitem__(i)[1][0][:])
+    test_b[:,3] = test_b[:,3] + 90
     RANGE_imgs_b = RANGE_imgs[(i)*batch_size:(i+1)*batch_size]
 
     pred_masks = render_mask(pred_b, shape=shape)
@@ -298,11 +296,11 @@ def grasp_success_rate(model_path,
     print(f"Mean absolute error of Thetta is {np.mean(absangles[(i)*batch_size:(i+1)*batch_size])}")
     print()
 
-    scores_table[i] = np.mean(scores[(i)*batch_size:(i+1)*batch_size])
+    # scores_table[i] = np.mean(scores[(i)*batch_size:(i+1)*batch_size])
 
-  scores_table = np.reshape(scores_table, (3,3))
+  # scores_table = np.reshape(scores_table, (3,3))
   # sns.heatmap(data=scores_table, annot=True, cmap='Blues')
-  print(f"Overall Score is {np.mean(scores_table)}")
+  # print(f"Overall Score is {np.mean(scores_table)}")
 
   return scores_table, jaccards
 
