@@ -145,7 +145,8 @@ def real_test(obj, i):
   img3 = img3.astype(np.float32)
 
   input = [img1, img2, img3]
-  model_path = "/content/drive/MyDrive/weights_mohokoo/sim2real_vgg16s2dsepconv_hardaug_20230831-042158.h5"
+  # model_path = "/content/drive/MyDrive/weights_mohokoo/sim2real_vgg16s2dsepconv_hardaug_20230831-042158.h5"
+  model_path = "/content/drive/MyDrive/weights_mohokoo/a/vgg16s2dsepconv_20230729-080924.h5"
   model = load_model(model_path, custom_objects={"Huber": tf.keras.losses.Huber(delta=1.0, reduction="auto", name="huber_loss"), "logcosh": tf.keras.metrics.LogCoshError() })
   
   output = model.predict(input)
